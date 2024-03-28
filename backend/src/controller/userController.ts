@@ -30,14 +30,14 @@ export const registerController = async(req: Request, res: Response) => {
         await user.save();
   
         const token = jwt.sign({userId: user._id, userEmail: user.email}, process.env.JWT_SECRET as string, {expiresIn: "1d"});
-  
-        res.cookie("auth-token", token, {
+        
+        res.cookie("auth_token", token, {
           httpOnly: true,
           secure: process.env.Node_Environment == "production" ? true : false,
-          maxAge: 86400000, //  1d in milisecond
-        })
+          maxAge: 1000 * 60 * 60 * 24, //  1d in milisecond
+        });
   
-        return res.status(201).json({ message: "user registered successfully"});
+        return res.status(201).json({ message: "user registered successfully", token: token});
   
       } catch (error) {
         console.log("registerError", error);

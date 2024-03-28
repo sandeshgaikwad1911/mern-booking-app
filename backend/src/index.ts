@@ -1,18 +1,20 @@
-import express, { NextFunction, Request, Response } from 'express';
+import express from 'express';
 import cors from 'cors';
 import userRoutes from './routes/userRoutes';
 import  authRoutes from './routes/authRoutes';
 import { connectDB } from './configuration/dbConnection';
+import cookieParser from 'cookie-parser';
+
 import dotenv from 'dotenv';
 dotenv.config();
 
 const app = express();
+app.use(cookieParser());
 app.use(express.json());
-app.use(express.urlencoded( { extended: true } ));
+app.use(express.urlencoded({ extended: true }));
 app.use(cors({
     origin: process.env.Frontend_Url,
-    credentials: true
-
+    credentials: true,
 }));
 
 

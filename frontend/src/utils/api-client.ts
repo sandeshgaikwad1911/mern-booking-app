@@ -11,13 +11,35 @@ export const userRegisterfun = async(formData: RegisterFormDataType)=>{
             "Content-Type": "application/json"
         },
         body: JSON.stringify(formData)
-    });
+    }); 
 
-
-    const  data = await res.json()    
-    console.log('res from server', res);
+    const  data = await res.json();  
+    console.log('res from server', data);
 
     if(!res.ok) {
         throw new Error(data.message || 'Something went wrong');
     }
+
+    
+};
+
+// -------------------------------------------------------------------------------------------------
+
+export const validateTokenfun = async() => {
+
+        const response = await fetch(`${Base_url}/auth/validate-token`, {
+            credentials: "include",
+            headers: {
+                'Content-Type': 'application/json',
+              }
+        }); 
+        console.log('response', response);
+    
+        if(!response.ok) {
+            throw new Error("Invalid Token");
+        }
+
+        return await response.json();
+
+
 }

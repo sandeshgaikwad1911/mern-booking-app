@@ -4,12 +4,14 @@ import { check, validationResult } from 'express-validator';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
-export const authValidation = [
+// -----------------------------------------------------------------------
+// express-validator validation
+export const loginValidation = [
     check("email", "Please provide valid email address").isEmail(),
     check('password', 'Password must be at least 6 characters long').isLength({ min: 6 })   
 ]
 
-export const authController = async(req: Request, res: Response,) => {
+export const loginController = async(req: Request, res: Response,) => {
     
     const errors = validationResult(req);
     if(!errors.isEmpty()) {
@@ -31,7 +33,7 @@ export const authController = async(req: Request, res: Response,) => {
 
         const token = jwt.sign({userId: user._id, userEmail: user.email}, process.env.JWT_SECRET as string, {expiresIn: "1d"});
         
-        res.cookie("auth-token", token, {
+        res.cookie("auth_token", token, {
             httpOnly: true,
             secure: process.env.Node_Environment == "production" ? true : false,
             maxAge: 86400000, //  1d in milisecond
@@ -40,7 +42,14 @@ export const authController = async(req: Request, res: Response,) => {
           return res.status(200).json({ userId: user._id});
 
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({message: "something went wrong"});
+        console.log("Login Error", error);
+        return res.status(500).json({message: "something went wrong while logIn"});
     }
+}
+
+
+// -----------------------------------------------------------------------
+
+export const tokenValidationController = (req: Request, res: Response,) => {
+    return res.status(200).json({userId: req.userId});
 }
