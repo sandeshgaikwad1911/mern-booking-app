@@ -13,7 +13,10 @@ export type RegisterFormDataType = {
 };
 
 
-const Register = () => { 
+const Register = () => {
+
+
+  
 
   const navigate = useNavigate();
 
@@ -23,8 +26,12 @@ const Register = () => {
 
   const {mutate} = useMutation(userRegisterfun, {
 
-    onSuccess: () => {
-      // console.log("onSucess fun => register successfully");
+    onSuccess: (data) => {
+
+      // console.log('onSuccess', data.token);
+
+      localStorage.setItem("auth_token", data?.token);
+
       showToast({message: "User Registered Successfully", type:"SUCCESS"});
       navigate("/");
     },
@@ -35,6 +42,7 @@ const Register = () => {
     }
 
   });
+
 
   const formSubit = handleSubmit((data)=>{
     // console.log('Onsubmitdata', data)

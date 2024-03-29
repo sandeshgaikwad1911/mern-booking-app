@@ -21,9 +21,8 @@ export const AppContextProvider = ({children} : {children: React.ReactNode}) => 
 
     const [toast, setToast] = useState<ToastMessageTypes | undefined>(undefined);
     
-    const {data, isError} = useQuery("validateToken", validateTokenfun, { retry: false });  // url
-    
-    console.log('data', data);
+    const {isError, data} = useQuery("validateToken", validateTokenfun, {retry: false});  // url 
+    console.log('validationFun data =>', data);
     
     return(
         <AppContext.Provider value={{
