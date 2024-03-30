@@ -1,6 +1,6 @@
 import { useForm, } from "react-hook-form";
 import { useMutation } from "react-query";
-import { userRegisterfun } from "../utils/api-client";
+import { userRegisterFunc } from "../utils/api-client";
 import useAppContext from "../hooks/useAppContext";
 import { useNavigate } from "react-router-dom";
 
@@ -15,25 +15,22 @@ export type RegisterFormDataType = {
 
 const Register = () => {
 
-
-  
-
   const navigate = useNavigate();
 
   const { showToast} = useAppContext();
 
   const { register, watch, handleSubmit, formState: {errors} } = useForm<RegisterFormDataType>();
-
-  const {mutate} = useMutation(userRegisterfun, {
+  
+  
+  const {mutate} = useMutation(userRegisterFunc, {
 
     onSuccess: (data) => {
 
-      // console.log('onSuccess', data.token);
+      // console.log('onSuccess', data);
 
       localStorage.setItem("auth_token", data?.token);
-
-      showToast({message: "User Registered Successfully", type:"SUCCESS"});
       navigate("/");
+      showToast({message: "User Registered Successfully", type:"SUCCESS"});
     },
 
     onError: (error: Error) => {
@@ -46,7 +43,7 @@ const Register = () => {
 
   const formSubit = handleSubmit((data)=>{
     // console.log('Onsubmitdata', data)
-    mutate(data);
+    mutate(data);     // mutate calls userRegisterFunc and pass data as an arguments => react query things
   });
 
 
@@ -109,7 +106,7 @@ const Register = () => {
             {errors.confirmPassword && (<span className="text-red-500 font-normal">{errors.confirmPassword.message}</span>)}
         </label>
         <span>
-          <button className="bg-blue-600 hover:bg-blue-500 text-white font-bold p-2" type="submit">Create Account</button>
+          <button className="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-3 rounded" type="submit">Create Account</button>
         </span>
     </form>
   )

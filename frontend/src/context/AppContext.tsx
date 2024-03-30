@@ -1,7 +1,8 @@
-import { createContext,useState } from "react";
+import { createContext,useState,} from "react";
 import Toast from "../components/Toast";
 import { useQuery } from "react-query";
-import { validateTokenfun } from "../utils/api-client";
+import { validateTokenFunc } from "../utils/api-client";
+
 
 type ToastMessageTypes = {
     message: string;
@@ -17,12 +18,19 @@ export type AppContextTypes = {
 export const AppContext = createContext<AppContextTypes | undefined>(undefined);        
 
 // provider function / component
-export const AppContextProvider = ({children} : {children: React.ReactNode}) => {       
+export const AppContextProvider = ({children} : {children: React.ReactNode}) => {      
 
     const [toast, setToast] = useState<ToastMessageTypes | undefined>(undefined);
     
-    const {isError, data} = useQuery("validateToken", validateTokenfun, {retry: false});  // url 
-    console.log('validationFun data =>', data);
+    const { isError,} = useQuery("validateToken", validateTokenFunc, {
+
+    retry: false,
+    
+    onSuccess: (data)=>{
+      console.log("onSuccess", data);
+    }
+
+  });
     
     return(
         <AppContext.Provider value={{
@@ -30,6 +38,7 @@ export const AppContextProvider = ({children} : {children: React.ReactNode}) => 
             showToast: (toastMessage) => {
                 setToast(toastMessage)
             },
+            
             isLoggedIn: !isError,
         }}>
 
@@ -42,9 +51,10 @@ export const AppContextProvider = ({children} : {children: React.ReactNode}) => 
 };
 
 
-// use separate file for fast rendering
-/* 
-export const useAppContext = () => {
-    const context =   useContext(AppContext);
-    return context as AppContextTypes;
-}; */
+// use separate file for fast rendering 
+// const useAppContext = () => {
+//     const context =   useContext(AppContext);
+//     return context as AppContextTypes;
+// };
+
+// export default useAppContext;

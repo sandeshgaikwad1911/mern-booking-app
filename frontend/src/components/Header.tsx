@@ -1,10 +1,18 @@
 import { Link } from "react-router-dom"
-import useAppContext from "../hooks/useAppContext";
+// import useAppContext from "../hooks/useAppContext";
+import { useEffect, useState } from "react";
+import SignOutButton from "./SignOutButton";
 
 function Header() {
-
-  const {isLoggedIn} = useAppContext();
-
+  
+      const [authToken, setAuthToken] = useState<null | string>(null);
+      
+      useEffect(()=>{
+        const  token = localStorage.getItem("auth_token");
+        if (token) {setAuthToken(token)}
+      },[authToken]);
+  
+ 
   return (
     <div className="bg-blue-800 pt-4 pb-8">
 
@@ -15,19 +23,19 @@ function Header() {
             </span>
 
             {
-              isLoggedIn ? (
-                <span className="flex space-x-2 text-lg text-white"> 
-                      <Link to="/my-bookings">My Bookings</Link>
-                      <Link to="/my-hotels">My Hotels</Link>
-                      <button>Sign out</button>
-                </span>
+              authToken ? (
+                  <span className="flex space-x-3 items-center text-lg text-white"> 
+                        <Link to="/my-bookings">My Bookings</Link>
+                        <Link to="/my-hotels">My Hotels</Link>
+                        <SignOutButton  />
+                  </span>
               ) : (
                 <span>
                   <Link to='/sign-in' className="text-blue-600 px-3 py-1 font-bold hover: bg-gray-100"> Sign in </Link>
                 </span> 
               )
-            }
-            
+            }        
+        
         </div>
         
     </div>
