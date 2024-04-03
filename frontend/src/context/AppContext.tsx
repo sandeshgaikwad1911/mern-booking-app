@@ -1,7 +1,7 @@
 import { createContext,useState,} from "react";
 import Toast from "../components/Toast";
-// import { useQuery } from "react-query";
-// import { validateTokenFunc } from "../utils/api-client";
+import { useQuery } from "react-query";
+import { validateTokenFunc } from "../utils/api-client";
 
 
 type ToastMessageTypes = {
@@ -11,7 +11,7 @@ type ToastMessageTypes = {
 
 export type AppContextTypes = {
     showToast: (toastMessage: ToastMessageTypes) => void;
-    // isLoggedIn: boolean;
+    isLoggedIn: boolean;
 };
 
 // initial value
@@ -22,15 +22,13 @@ export const AppContextProvider = ({children} : {children: React.ReactNode}) => 
 
     const [toast, setToast] = useState<ToastMessageTypes | undefined>(undefined);
     
-//     const { isError,} = useQuery("validateToken", validateTokenFunc, {
+    const { isError,} = useQuery("validateToken", validateTokenFunc, {
 
-//     retry: false,
-    
-//     onSuccess: (data)=>{
-//       console.log("onSuccess", data);
-//     }
+    onSuccess: (data)=>{
+      console.log("onSuccess", data);
+    }
 
-//   });
+  });
     
     return(
         <AppContext.Provider value={{
@@ -39,7 +37,7 @@ export const AppContextProvider = ({children} : {children: React.ReactNode}) => 
                 setToast(toastMessage)
             },
             
-            // isLoggedIn: !isError,
+            isLoggedIn: !isError,
         }}>
 
             {toast && (<Toast message={toast.message} type={toast.type} onClose={()=>setToast(undefined)}/>)}

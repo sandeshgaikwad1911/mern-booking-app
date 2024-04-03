@@ -30,11 +30,7 @@ export const userRegisterFunc = async(formData: RegisterFormDataType)=>{
 
 export const validateTokenFunc = async() => {
 
-    const token = localStorage.getItem("auth_token");
-
-        // if (!token){
-        //     return false;   // not logged in
-        // }
+        const token = localStorage.getItem("auth_token");
 
         const res = await fetch(`${Base_url}/auth/validate-token`, {
             credentials: "include",
@@ -84,14 +80,13 @@ export const signOutFunc = async() => {
     const res = await fetch(`${Base_url}/auth/logout`,{
         method:"POST",
         credentials: 'include'
-    })
+    });
 
     const data = await res.json();
 
     if(!res.ok) {
         throw new Error(data?.message || "Error during sign out.");
     }
-    // return data;
-
+    return data;
 
 }

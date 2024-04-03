@@ -1,4 +1,4 @@
-import { useMutation } from "react-query"
+import { useMutation, useQueryClient } from "react-query"
 import { signOutFunc } from "../utils/api-client";
 import useAppContext from "../hooks/useAppContext";
 import { useNavigate } from "react-router-dom";
@@ -6,13 +6,17 @@ import { useNavigate } from "react-router-dom";
 
 function SignOutButton() {
 
-    const {showToast} = useAppContext();
-    const navigate = useNavigate();
+   const queryClient = useQueryClient();
+   const navigate = useNavigate();
 
+    const {showToast} = useAppContext();
+    
     const {mutate} = useMutation(signOutFunc,{
 
-        onSuccess: () => {
-            localStorage.removeItem("auth_token")
+        onSuccess: async() => {
+            
+            localStorage.removeItem("auth_token");
+            await queryClient.invalidateQueries("validateToken");
             showToast({message: "User Sign Out Successfully", type: "SUCCESS"});
             navigate('/')
         },
@@ -27,10 +31,10 @@ function SignOutButton() {
     }
 
   return (
-    <button className="text-blue-600 px-2 py-1 font-semibold bg-white hover:bg-gray-100  rounded"
+    <button className="px-2 py-1 hover:bg-gray-100 font-semibold hover:text-blue-600  rounded bg-blue-600"
         onClick={handleClick}
     >
-        Sign Out
+        Logout
     </button>
   )
 }
