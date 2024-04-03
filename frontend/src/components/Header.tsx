@@ -10,6 +10,7 @@ function Header() {
       useEffect(()=>{
         const  token = localStorage.getItem("auth_token");
         if (token) {setAuthToken(token)}
+        
       },[authToken]);
   
  
@@ -24,9 +25,9 @@ function Header() {
 
             {
               authToken ? (
-                  <span className="flex space-x-3 items-center text-lg text-white"> 
-                        <Link to="/my-bookings">My Bookings</Link>
-                        <Link to="/my-hotels">My Hotels</Link>
+                  <span className="flex gap-2 items-center text-lg text-white"> 
+                        <Link to="/my-bookings" className="hover:bg-blue-600 px-2 py-1 rounded">My Bookings</Link>
+                        <Link to="/my-hotels" className="hover:bg-blue-600 px-2 py-1 rounded">My Hotels</Link>
                         <SignOutButton  />
                   </span>
               ) : (

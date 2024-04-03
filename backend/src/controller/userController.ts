@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { User } from "../models/userModel";
 import { check, validationResult } from "express-validator";
 import jwt from 'jsonwebtoken';
-import { IUser } from "../models/userModel";
+// import { IUser } from "../models/userModel";
 
 export const registerValidation = [
     check("firstname", "First name is required").isString(),

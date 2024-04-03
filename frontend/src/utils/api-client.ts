@@ -32,9 +32,9 @@ export const validateTokenFunc = async() => {
 
     const token = localStorage.getItem("auth_token");
 
-        if (!token){
-            return false;   // not logged in
-        }
+        // if (!token){
+        //     return false;   // not logged in
+        // }
 
         const res = await fetch(`${Base_url}/auth/validate-token`, {
             credentials: "include",

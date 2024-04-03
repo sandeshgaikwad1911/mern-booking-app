@@ -39,7 +39,7 @@ export const loginController = async(req: Request, res: Response,) => {
             maxAge: 1000 * 60 * 60 * 24, //  1d in milisecond
           })
 
-          return res.status(200).json({ userId: user._id, token: token});
+        return res.status(200).json({ userId: user._id, token: token});
 
     } catch (error) {
         console.log("Login Error", error);

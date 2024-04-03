@@ -2,7 +2,7 @@ import { useForm, } from "react-hook-form";
 import { useMutation } from "react-query";
 import { userRegisterFunc } from "../utils/api-client";
 import useAppContext from "../hooks/useAppContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export type RegisterFormDataType = {
   firstname: string;
@@ -17,6 +17,8 @@ const Register = () => {
 
   const navigate = useNavigate();
 
+
+
   const { showToast} = useAppContext();
 
   const { register, watch, handleSubmit, formState: {errors} } = useForm<RegisterFormDataType>();
@@ -26,12 +28,14 @@ const Register = () => {
 
     onSuccess: (data) => {
 
-      // console.log('onSuccess', data);
+      console.log('onSuccess', data);
+      // console.log("register onsuccess", typeof data.token)
 
-      localStorage.setItem("auth_token", data?.token);
-      navigate("/");
+      localStorage.setItem("auth_token", data.token);
       showToast({message: "User Registered Successfully", type:"SUCCESS"});
+      navigate("/");
     },
+
 
     onError: (error: Error) => {
       console.log("onError fun =>", error)
@@ -105,6 +109,10 @@ const Register = () => {
             />
             {errors.confirmPassword && (<span className="text-red-500 font-normal">{errors.confirmPassword.message}</span>)}
         </label>
+        <span className="font-sm text-gray-700">
+          Already have an account ? 
+          <Link to="/sign-in" className="px-2 rounded ml-1 text-blue-600 underline">Sign In</Link>
+        </span>
         <span>
           <button className="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-3 rounded" type="submit">Create Account</button>
         </span>

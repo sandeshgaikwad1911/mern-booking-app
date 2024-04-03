@@ -9,7 +9,7 @@ export interface IUser{
     lastname: string,
 }
 
-const userSchema = new mongoose.Schema({ 
+const userSchema = new mongoose.Schema<IUser>({ 
     email: { 
         type: String,
         required: true,

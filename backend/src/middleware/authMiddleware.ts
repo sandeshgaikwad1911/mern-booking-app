@@ -17,7 +17,7 @@ export const verifyToken = async(req: Request, res: Response, next: NextFunction
  
     let token: string;
 
-    const testToken: string =  req.cookies?.["auth_token"] || req.headers?.authorization;
+    const testToken: string = req.cookies?.["auth_token"] || req.headers?.authorization;
  
     if(testToken.startsWith("Bearer")){
         token = testToken.split(' ')[1];

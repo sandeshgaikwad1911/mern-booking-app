@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form"
 import { useMutation } from "react-query";
 import { signInFunc } from "../utils/api-client";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useAppContext from "../hooks/useAppContext";
 
 export type SignInFormTypes = {
@@ -19,10 +19,10 @@ export default function SignIn() {
 
   const { mutate} = useMutation(signInFunc,{
 
-    onSuccess: async(data)=>{
-      localStorage.setItem("auth_token", data?.token);
-      navigate("/");
+    onSuccess: (data)=>{
+      localStorage.setItem("auth_token", data.token);
       showToast({message: "User Sign In Successfully", type:"SUCCESS"});
+      navigate("/");
     },
     onError: (error: Error) => {
       // console.log(" SignIn onError fun =>", error)
@@ -59,6 +59,10 @@ export default function SignIn() {
             />
             {errors.password && (<span className="text-red-500 font-normal">{errors.password.message}</span>)}
         </label>
+        <span className="font-sm text-gray-700">
+          Don't have an account ? 
+          <Link to="/register" className="px-2 rounded ml-1 text-blue-600 underline">Sign Up</Link>
+        </span>
         <span>
           <button type="submit" className="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-3 rounded">Sign In</button>
         </span>
