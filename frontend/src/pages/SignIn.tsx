@@ -20,7 +20,6 @@ export default function SignIn() {
   const {register,  handleSubmit, formState: {errors}} = useForm<SignInFormTypes>();
 
   const { mutate} = useMutation(signInFunc,{
-
     onSuccess: async(data)=>{
       localStorage.setItem("auth_token", data.token);
       await queryClient.invalidateQueries("validateToken")

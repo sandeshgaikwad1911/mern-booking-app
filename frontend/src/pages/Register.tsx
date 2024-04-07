@@ -27,9 +27,7 @@ const Register = () => {
   const {mutate} = useMutation(userRegisterFunc, {
 
     onSuccess: async(data) => {
-
       console.log('onSuccess', data);
-      // console.log("register onsuccess", typeof data.token)
       localStorage.setItem("auth_token", data.token);
       await queryClient.invalidateQueries('validateToken');
       showToast({message: "User Registered Successfully", type:"SUCCESS"});
@@ -47,7 +45,7 @@ const Register = () => {
 
   const formSubit = handleSubmit((data)=>{
     // console.log('Onsubmitdata', data)
-    mutate(data);     // mutate calls userRegisterFunc and pass data as an arguments => react query things
+    mutate(data);     // mutate calls, userRegisterFunc and pass data as an arguments => react query things
   });
 
 

@@ -12,8 +12,11 @@ function Header() {
 
         <div className="container mx-auto flex justify-between items-center">
 
-            <span className="text-3xl text-white font-bold">
+            <span className="text-3xl text-white font-bold hidden sm:flex">
                 <Link to='/'> Holidays.com </Link>
+            </span>
+            <span className="text-4xl text-white font-bold flex sm:hidden">
+                <Link to='/'>H.</Link>
             </span>
 
             {
